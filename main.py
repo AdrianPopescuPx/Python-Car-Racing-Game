@@ -48,6 +48,8 @@ class PlayerCar(AbstractCar):
 def draw(win, images, player_car):
     for img, pos in images:
         win.blit(img, pos)
+    player_car.draw(win)
+    pygame.display.update()
 
 run = True
 clock = pygame.time.Clock()
@@ -65,5 +67,17 @@ while run:
         if event.type == pygame.QUIT:
             run = False
             break
+
+    keys = pygame.key.get_pressed()
+
+    moved = False
+
+    if keys[pygame.K_a]:
+        player_car.rotate(left=True)
+    if keys[pygame.K_d]:
+        player_car.rotate(right=True)
+    if keys[pygame.K_w]:
+        moved = True
+    
 
 pygame.quit()
