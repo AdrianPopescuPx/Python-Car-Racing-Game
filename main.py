@@ -42,11 +42,19 @@ class AbstractCar:
     
     def move_forward(self):
         self.vel = min(self.vel + self.acceleration, self.max_vel)
-        
+        self.move()
 
     def move_forward(self):
         self.vel = min(self.vel + self.acceleration, self.max_vel)
-        
+        self.move()
+    
+    def move(self):
+        radians = math.radians(self.angle)
+        vertical = math.cos(radians) * self.vel
+        horizontal = math.sin(radians) * self.vel
+
+        self.y -= vertical
+        self.x -= horizontal
 
 class PlayerCar(AbstractCar):
     IMG = RED_CAR
