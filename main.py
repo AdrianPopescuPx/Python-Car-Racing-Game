@@ -7,7 +7,6 @@ GRASS = scale_image(pygame.image.load("images/grass.jpg"), 2.5)
 TRACK = scale_image(pygame.image.load("images/track.png"), 0.9)
 
 TRACK_BORDER = pygame.image.load("images/track-border.png")
-FINISH = pygame.image.load("images/finish.png")
 
 RED_CAR = scale_image(pygame.image.load("images/red-car.png"), 0.55)
 GREEN_CAR = scale_image(pygame.image.load("images/green-car.png"), 0.55)
@@ -37,8 +36,6 @@ class AbstractCar:
 
     def draw(self, win):
         blit_rotate_center(win, self.img, (self.x, self.y), self.angle)
-        player_car.draw(win)
-        pygame.display.update()
     
     def move_forward(self):
         self.vel = min(self.vel + self.acceleration, self.max_vel)
@@ -60,7 +57,7 @@ class AbstractCar:
         self.vel = max(self.vel - self.acceleration / 2, 0)
         self.move()
 
-        
+
 class PlayerCar(AbstractCar):
     IMG = RED_CAR
     START_POS = (180, 200)
@@ -68,8 +65,10 @@ class PlayerCar(AbstractCar):
 def draw(win, images, player_car):
     for img, pos in images:
         win.blit(img, pos)
+
     player_car.draw(win)
     pygame.display.update()
+
 
 run = True
 clock = pygame.time.Clock()
@@ -80,7 +79,6 @@ while run:
     clock.tick(FPS) #Game limited to 60 Frames Per Second
 
     draw(WIN, images, player_car)
-    pygame.display.update()
         
 
     for event in pygame.event.get():
@@ -89,7 +87,6 @@ while run:
             break
 
     keys = pygame.key.get_pressed()
-
     moved = False
 
     if keys[pygame.K_a]:
