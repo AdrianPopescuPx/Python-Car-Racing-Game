@@ -44,6 +44,10 @@ class AbstractCar:
     def move_forward(self):
         self.vel = min(self.vel + self.acceleration, self.max_vel)
         self.move()
+
+    def move_backward(self):
+        self.vel = max(self.vel - self.acceleration, -self.max_vel/2)
+        self.move()
     
     def move(self):
         radians = math.radians(self.angle)
@@ -69,6 +73,23 @@ def draw(win, images, player_car):
     player_car.draw(win)
     pygame.display.update()
 
+def move_player(player_car):
+    keys = pygame.key.get_pressed()
+    moved = False
+
+    if keys[pygame.K_a]:
+        player_car.rotate(left=True)
+    if keys[pygame.K_d]:
+        player_car.rotate(right=True)
+    if keys[pygame.K_w]:
+        moved = True
+        player_car.move_forward()
+    if keys[pygame.K_s]:
+        moved = True
+        player_car.move_backward()
+
+    if not moved:
+        player_car.reduce_speed()
 
 run = True
 clock = pygame.time.Clock()
@@ -86,17 +107,5 @@ while run:
             run = False
             break
 
-    keys = pygame.key.get_pressed()
-    moved = False
-
-    if keys[pygame.K_a]:
-        player_car.rotate(left=True)
-    if keys[pygame.K_d]:
-        player_car.rotate(right=True)
-    if keys[pygame.K_w]:
-        moved = True
-        player_car.move_forward()
-    if not moved:
-        player_car.reduce_speed()
 
 pygame.quit()
